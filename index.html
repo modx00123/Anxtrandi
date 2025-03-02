@@ -57,33 +57,22 @@
       font-weight: bold;
     }
 
-    .pending {
-      color: #ff9800;
+    .tg-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #0088cc, #004c70);
+      border-radius: 20px;
       font-weight: bold;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(0, 136, 204, 0.8);
+      transition: transform 0.3s ease-in-out;
     }
 
-    .big {
-      color: #28a745;
-      font-weight: bold;
-    }
-
-    .small {
-      color: #dc3545;
-      font-weight: bold;
-    }
-
-    .period-box {
-      background: linear-gradient(135deg, #ff9800, #ff5722);
-      padding: 10px 15px;
-      border-radius: 10px;
-      display: inline-block;
-      font-size: 1.2rem;
-      font-weight: bold;
-      text-shadow: 0 0 10px rgba(255, 87, 34, 0.8);
-    }
-
-    .animate-fade-in {
-      animation: fadeIn 0.5s ease-in-out;
+    .tg-btn:hover {
+      transform: scale(1.1);
     }
 
     @keyframes fadeIn {
@@ -93,29 +82,59 @@
   </style>
 
   <script>
-    function checkInternet() {
-      if (!navigator.onLine) {
-        closeWindow(); // Net Off Par Close
-      }
+    function joinTelegram() {
+      window.location.href = "https://t.me/+WpmHoGixzvkyOTc1";
+      document.getElementById("tgButton").style.display = "none";
     }
+  </script>
 
-    function closeWindow() {
-      if (navigator.userAgent.includes("Chrome") || navigator.userAgent.includes("Android")) {
-        window.open("about:blank", "_self").close(); // Chrome & Android Pe Direct Close
-      } else {
-        window.close(); // Other Browser Close
-      }
-    }
+</head>
+<body>
 
-    window.addEventListener("load", checkInternet);
-    window.addEventListener("offline", checkInternet);
+  <div id="particles-js"></div>
 
-    document.addEventListener("visibilitychange", () => {
-      if (document.visibilityState === "hidden" && !navigator.onLine) {
-        closeWindow(); // Background Me Jaye Toh Close
-      }
-    });
+  <!-- Telegram Join Button -->
+  <button id="tgButton" class="tg-btn animate-fade-in" onclick="joinTelegram()">
+    <i class="fab fa-telegram"></i> JOIN TELEGRAM
+  </button>
 
+  <!-- Header -->
+  <header class="w-full text-center py-6">
+    <h1 class="text-3xl font-bold highlight">
+      <i class="fas fa-chart-line"></i> TEAM EARNING<span class="text-red-500"> AI</span>
+    </h1>
+  </header>
+
+  <!-- Period & Timer -->
+  <div class="glass-container">
+    <h2 class="text-lg font-semibold">
+      <i class="fas fa-clock text-blue-400"></i> Current Period:
+    </h2>
+    <p id="period" class="period-box">Loading...</p>
+    <p class="text-xl mt-2">
+      <i class="fas fa-hourglass-half text-yellow-400"></i>
+      <span id="timer">00:00</span>
+    </p>
+  </div>
+
+  <!-- Prediction -->
+  <div class="glass-container mt-4">
+    <h2 class="text-lg font-semibold">
+      <i class="fas fa-magic text-purple-400"></i> Prediction:
+    </h2>
+    <p id="prediction" class="pending text-lg">Pending...</p>
+    <p id="chance" class="text-gray-400 text-sm">Chance: --%</p>
+  </div>
+
+  <!-- Prediction History -->
+  <div class="glass-container mt-4">
+    <h2 class="text-lg font-semibold">
+      <i class="fas fa-history"></i> Last Predictions:
+    </h2>
+    <ul id="historyList" class="text-gray-300 mt-2 space-y-2"></ul>
+  </div>
+
+  <script>
     const predictionSequence = ["Big", "Small"];
     let lastPeriod = null;
 
@@ -132,7 +151,6 @@
       if (lastPeriod !== periodNumber) {
         lastPeriod = periodNumber;
         document.getElementById("prediction").textContent = "Pending...";
-        document.getElementById("prediction").className = "pending text-lg";
         document.getElementById("chance").textContent = "Chance: --%";
 
         setTimeout(() => {
@@ -146,7 +164,6 @@
       const randomChance = Math.floor(Math.random() * (95 - 65 + 1)) + 65;
 
       document.getElementById("prediction").textContent = prediction;
-      document.getElementById("prediction").className = prediction === "Big" ? "big text-lg" : "small text-lg";
       document.getElementById("chance").textContent = `Chance: ${randomChance}%`;
 
       updateHistory(periodNumber, prediction, randomChance);
@@ -170,38 +187,6 @@
       }
     });
   </script>
-
-</head>
-<body>
-
-<div id="particles-js"></div>
-
-<header class="w-full text-center py-6">
-  <h1 class="text-3xl font-bold highlight">
-    <i class="fas fa-chart-line"></i> TEAM EARNING<span class="text-red-500">AI</span>
-  </h1>
-</header>
-
-<div class="glass-container">
-  <h2><i class="fas fa-clock text-blue-400"></i> Current Period:</h2>
-  <p id="period" class="period-box">Loading...</p>
-  <p><i class="fas fa-hourglass-half text-yellow-400"></i> <span id="timer">00:00</span></p>
-</div>
-
-<div class="glass-container mt-4">
-  <h2><i class="fas fa-magic text-purple-400"></i> Prediction:</h2>
-  <p id="prediction" class="pending">Pending...</p>
-  <p id="chance" class="text-gray-400 text-sm">Chance: --%</p>
-</div>
-
-<div class="glass-container mt-4">
-  <h2><i class="fas fa-history"></i> Last Predictions:</h2>
-  <ul id="historyList"></ul>
-</div>
-
-<footer class="text-center text-sm text-gray-400 mt-6">
-  <span>CREADIT BY ANXT🔥</span>
-</footer>
 
 </body>
 </html>
